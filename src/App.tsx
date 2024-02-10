@@ -1,14 +1,29 @@
+import { useState } from "react";
 import logo from "./assets/logo-nlw-expert.svg";
 import { NewNoteCard } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
 import "./index.css";
 
-const note = {
-  date: new Date(),
-  content: "hello world",
-};
+interface Note {
+  id: string;
+  date: Date;
+  content: string;
+}
 
 export default function App() {
+  const [notes, setNotes] = useState<Note[]>();
+
+  function onNoteCreated(content: string) {
+    const newNote = {
+      id: crypto.randomUUID(),
+      date: new Date(),
+      content,
+    };
+
+    //para as novas ficarem primeiro
+    setNotes([newNote, ...notes]);
+  }
+
   return (
     //as margens são tudo multiplicos de 4 para ter uma consistencia (algo de design)
     //form não tem display block, então é legal usar esse w-full
@@ -22,21 +37,15 @@ export default function App() {
         <input
           type="text"
           placeholder="Busque em suas notas..."
-          className="w-full bg-transparent 
-          text-3xl font-semibold tracking-tight 
-          outline-none placeholder:text-slate-500"
+          className="w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-slate-500"
         />
       </form>
       <div className="h-px bg-slate-700" />
       <div className="grid grid-cols-3 gap-6 auto-rows-[250px]">
-        <NewNoteCard />
-        <NoteCard note={note} />
-        <NoteCard
-          note={{
-            date: new Date(),
-            content: "testando",
-          }}
-        />
+        <NewNoteCard onNoteCreated={onNoteCreated} />
+        {notes?.map((note) => {
+          return <NoteCard key={note.id} note={note} />;
+        })}
       </div>
     </div>
   );

@@ -3,7 +3,11 @@ import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-export function NewNoteCard() {
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void;
+}
+
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnBoarding, setShouldShowOnBoarding] = useState(true);
   const [formContent, setFormContent] = useState("");
 
@@ -24,7 +28,10 @@ export function NewNoteCard() {
   function handleSubmit(e: FormEvent) {
     //para ele não fechar a modal
     e.preventDefault();
+    onNoteCreated(formContent);
     formContent.length > 0 ? toast.success("Nota criada com sucesso!") : null;
+    setFormContent("");
+    setShouldShowOnBoarding(true);
   }
 
   return (
@@ -70,6 +77,7 @@ export function NewNoteCard() {
                 </p>
               ) : (
                 <textarea
+                  value={formContent}
                   autoFocus
                   className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none"
                   onChange={handleChange}
