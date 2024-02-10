@@ -1,6 +1,6 @@
-import logo from "./assets/Logo.svg";
-import NewNoteCard from "./components/New-note-card";
-import { NoteCard } from "./components/Note-card";
+import logo from "./assets/logo-nlw-expert.svg";
+import { NewNoteCard } from "./components/new-note-card";
+import { NoteCard } from "./components/note-card";
 import "./index.css";
 
 const note = {
@@ -21,7 +21,7 @@ export default function App() {
       <form className="w-full">
         <input
           type="text"
-          placeholder="'Busque em suas notas..."
+          placeholder="Busque em suas notas..."
           className="w-full bg-transparent 
           text-3xl font-semibold tracking-tight 
           outline-none placeholder:text-slate-500"
