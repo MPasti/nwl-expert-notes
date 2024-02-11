@@ -17,13 +17,15 @@ import { X } from "lucide-react";
 //flex-grow 1 ocupa o maximo possivel, flex-shrink 1 mas se outro elemento precisar de espaço ele reduz
 interface NoteCardProps {
   note: {
+    id: string;
     date: Date;
     content: string;
   };
+  onNoteDeleted: (id: string) => void;
 }
 
 //posso tirar o props, desestruturar o note e passar ele
-export function NoteCard({ note }: NoteCardProps) {
+export function NoteCard({ note, onNoteDeleted }: NoteCardProps) {
   return (
     //usa um box-shadow (esse ring) para fazer os efeitos de hover
     //virar um button para dar tab e mudar de focus
@@ -41,7 +43,7 @@ export function NoteCard({ note }: NoteCardProps) {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/50" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[640px] w-full h-[60vh] bg-slate-700 rounded-md flex flex-col outline-none">
+        <Dialog.Content className="fixed overflow-hidden inset-0 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-[640px] w-full md:h-[60vh] bg-slate-700 md:rounded-md flex flex-col outline-none">
           <Dialog.Close className="absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 hover:text-slate-100">
             <X className="size-5" />
           </Dialog.Close>
@@ -57,6 +59,12 @@ export function NoteCard({ note }: NoteCardProps) {
 
           <button
             type="button"
+            onClick={
+              () => onNoteDeleted(note.id)
+
+              //se passamos uma função com parametros, precisamos de uma arrow function, pq esses eventos nativos esperam
+              //a declaração de uma função e não a execução de uma
+            }
             className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group"
           >
             Deseja{" "}
