@@ -1,8 +1,6 @@
-![Cover](./.github/cover.png)
+# Notes (TypeScript + React)
 
-# NLW Expert (React)
-
-Essa aplicação foi desenvolvida durante o NLW Experts da Rocketseat utilizando React, TypeScript, TailwindCSS, Radix-ui, date-fns, lucid-react, sonner e a SpeechRecognition API.
+Essa aplicação foi desenvolvida durante o NLW Experts da Rocketseat utilizando React, TypeScript, TailwindCSS, Radix-ui, date-fns, lucid-react, sonner e a SpeechRecognition API. Porém personalizado da maneira que preferi.
 
 ## Executando
 
