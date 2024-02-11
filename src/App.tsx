@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
-import logo from "./assets/logo-nlw-expert.svg";
+import logo from "./assets/typescript.png";
+import react from "./assets/React-icon.svg.png";
 import { NewNoteCard } from "./components/New-note-card";
 import { NoteCard } from "./components/Note-card";
 import "./index.css";
@@ -75,7 +76,18 @@ export default function App() {
     // o tailwind é diferente, normalmente criamos o desktop e mudamos para mobile, já aqui criamos os estilos para menores
     //e alteramos para maiores
     <div className="mx-auto max-w-6xl my-12 space-y-6 px-5 md:px-0">
-      <img src={logo} alt="NWL Expert" />
+      <h1 className="font-bold text-3xl">
+        Notes{" "}
+        <img src={logo} alt="ts" width={"28px"} style={{ display: "inline" }} />{" "}
+        +{" "}
+        <img
+          src={react}
+          alt="react"
+          width={"28px"}
+          style={{ display: "inline" }}
+        ></img>
+      </h1>
+
       <form className="w-full">
         <input
           type="text"
@@ -85,6 +97,7 @@ export default function App() {
         />
       </form>
       <div className="h-px bg-slate-700" />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
         <NewNoteCard onNoteCreated={onNoteCreated} />
         {filteredNotes?.map((note) => {

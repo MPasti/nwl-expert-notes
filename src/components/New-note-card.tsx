@@ -98,17 +98,17 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger className="rounded-md flex flex-col bg-slate-700 text-left p-5 gap-3 outline-none hover: ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
+      <Dialog.Trigger className="rounded-md flex flex-col bg-slate-700 text-left p-5 gap-3 outline-none hover: ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-purple-400">
         <span className="text-sm font-medium text-slate-200">
           Adicionar nota
         </span>
         <p className="text-sm leading-6 text-slate-400">
           Comece{" "}
-          <span className="font-medium text-lime-400">
+          <span className="font-medium text-purple-400">
             gravando uma nota <Mic className="inline" />
           </span>{" "}
           em áudio ou{" "}
-          <span className="font-medium text-lime-400">
+          <span className="font-medium text-purple-400">
             utilize apenas texto <Keyboard className="inline" />
           </span>
         </p>
@@ -131,7 +131,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                   <button
                     type="button"
                     onClick={handleRecording}
-                    className="font-medium text-lime-400 hover:underline"
+                    className="font-medium text-purple-400 hover:underline"
                   >
                     gravando uma nota <Mic className="inline" />
                   </button>{" "}
@@ -139,7 +139,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                   <button
                     type="button"
                     onClick={handleEdit}
-                    className="font-medium text-lime-400 hover:underline"
+                    className="font-medium text-purple-400 hover:underline"
                   >
                     utilize apenas texto <Keyboard className="inline" />
                   </button>
@@ -166,9 +166,9 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
               </button>
             ) : (
               <button
-                type="submit"
+                type="button"
                 onClick={handleSubmit}
-                className="w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500"
+                className="w-full bg-purple-400 py-4 text-center text-sm text-purple-950 outline-none font-medium hover:bg-purple-500"
               >
                 Salvar nota
               </button>

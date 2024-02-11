@@ -31,7 +31,7 @@ export function NoteCard({ note, onNoteDeleted }: NoteCardProps) {
     //virar um button para dar tab e mudar de focus
     //o focus aplica o css quando clicamos no elemento, já o focus visible aplica apenas se tiver navegando pelo teclado (tab)
     <Dialog.Root>
-      <Dialog.Trigger className="rounded-md text-left flex flex-col bg-slate-800 p-5 gap-3 outline-none hover: ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
+      <Dialog.Trigger className="rounded-md text-left bg-slate-800 flex flex-col p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-purple-400 outline-none">
         <span className="text-sm font-medium text-slate-300">
           {formatDistanceToNow(note.date, {
             locale: ptBR,
