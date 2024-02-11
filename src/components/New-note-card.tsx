@@ -5,7 +5,6 @@ import { toast } from "sonner";
 
 interface NewNoteCardProps {
   onNoteCreated: (content: string) => void;
-  onNoteDeleted: (id: string) => void;
 }
 
 let speechRecognition: SpeechRecognition | null = null;
