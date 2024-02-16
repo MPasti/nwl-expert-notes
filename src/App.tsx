@@ -35,6 +35,20 @@ export default function App() {
     localStorage.setItem("notes", JSON.stringify(notesArray));
   }
 
+  function onNoteUpdate(id: string, content: string) {
+    const notesArray = notes.filter((e) => {
+      if (id === e.id) {
+        e.content = content;
+        return e;
+      } else {
+        return e;
+      }
+    });
+
+    setNotes(notesArray);
+    localStorage.setItem("notes", JSON.stringify(notesArray));
+  }
+
   function onNoteCreated(content: string) {
     const newNote = {
       id: crypto.randomUUID(),
@@ -75,37 +89,53 @@ export default function App() {
     //facil criar responsivo só usar md: sm: para ser um breakpoint
     // o tailwind é diferente, normalmente criamos o desktop e mudamos para mobile, já aqui criamos os estilos para menores
     //e alteramos para maiores
-    <div className="mx-auto max-w-6xl my-12 space-y-6 px-5 md:px-0">
-      <h1 className="font-bold text-3xl">
-        Notes{" "}
-        <img src={logo} alt="ts" width={"28px"} style={{ display: "inline" }} />{" "}
-        +{" "}
-        <img
-          src={react}
-          alt="react"
-          width={"28px"}
-          style={{ display: "inline" }}
-        ></img>
-      </h1>
+    <>
+      <div className="mx-auto max-w-6xl my-12 space-y-6 px-5 md:px-0">
+        <h1 className="font-bold text-3xl">
+          Notes{" "}
+          <img
+            src={logo}
+            alt="ts"
+            width={"28px"}
+            style={{ display: "inline" }}
+          />{" "}
+          +{" "}
+          <img
+            src={react}
+            alt="react"
+            width={"28px"}
+            style={{ display: "inline" }}
+          ></img>{" "}
+          <p className="font-bold text-2xl text-purple-300">
+            {" "}
+            Desenvolvido por Matheus Soares Pasti
+          </p>
+        </h1>
 
-      <form className="w-full">
-        <input
-          type="text"
-          placeholder="Busque em suas notas..."
-          onChange={handleSearch}
-          className="w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-slate-500"
-        />
-      </form>
-      <div className="h-px bg-slate-700" />
+        <form className="w-full">
+          <input
+            type="text"
+            placeholder="Busque em suas notas..."
+            onChange={handleSearch}
+            className="w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-slate-500"
+          />
+        </form>
+        <div className="h-px bg-slate-700" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
-        <NewNoteCard onNoteCreated={onNoteCreated} />
-        {filteredNotes?.map((note) => {
-          return (
-            <NoteCard onNoteDeleted={onNoteDeleted} key={note.id} note={note} />
-          );
-        })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
+          <NewNoteCard onNoteCreated={onNoteCreated} />
+          {filteredNotes?.map((note) => {
+            return (
+              <NoteCard
+                onNoteDeleted={onNoteDeleted}
+                onNoteUpdate={onNoteUpdate}
+                key={note.id}
+                note={note}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

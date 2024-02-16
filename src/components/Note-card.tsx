@@ -6,7 +6,9 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { formatDistanceToNow } from "date-fns";
 //para pegar o horário salvo e subtrair pelo atual
 import { ptBR } from "date-fns/locale";
-import { X } from "lucide-react";
+import { PencilLine, X } from "lucide-react";
+import { ChangeEvent, useState } from "react";
+import { toast } from "sonner";
 
 //vamos mudar o button para Dialog.Trigger, que ao clicar nele vai abrir um elemento, ao clicar dnv vai fechar
 //Dialog.Portal faz com que o elemento seja mostrado em outro lugar que quisermos
@@ -22,15 +24,34 @@ interface NoteCardProps {
     content: string;
   };
   onNoteDeleted: (id: string) => void;
+  onNoteUpdate: (id: string, content: string) => void;
 }
 
 //posso tirar o props, desestruturar o note e passar ele
-export function NoteCard({ note, onNoteDeleted }: NoteCardProps) {
+export function NoteCard({ note, onNoteDeleted, onNoteUpdate }: NoteCardProps) {
+  const [shouldShowOnBoarding, setShouldShowOnBoarding] = useState(false);
+  const [formContent, setFormContent] = useState(note.content);
+  function handleEdit() {
+    setShouldShowOnBoarding(!shouldShowOnBoarding);
+  }
+
+  function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    setFormContent(e.target.value);
+
+    if (e.target.value === "") {
+      setShouldShowOnBoarding(true);
+    }
+  }
+
   return (
     //usa um box-shadow (esse ring) para fazer os efeitos de hover
     //virar um button para dar tab e mudar de focus
     //o focus aplica o css quando clicamos no elemento, já o focus visible aplica apenas se tiver navegando pelo teclado (tab)
-    <Dialog.Root>
+    <Dialog.Root
+      onOpenChange={() => {
+        setShouldShowOnBoarding(false);
+      }}
+    >
       <Dialog.Trigger className="rounded-md text-left bg-slate-800 flex flex-col p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-purple-400 outline-none">
         <span className="text-sm font-medium text-slate-300">
           {formatDistanceToNow(note.date, {
@@ -54,25 +75,72 @@ export function NoteCard({ note, onNoteDeleted }: NoteCardProps) {
                 addSuffix: true,
               })}
             </span>
-            <p className="text-sm leading-6 text-slate-400">{note.content}</p>
+            {!shouldShowOnBoarding ? (
+              <p className="text-sm leading-6 text-slate-400">
+                {note.content}{" "}
+                <button
+                  type="button"
+                  onClick={handleEdit}
+                  className="font-medium text-purple-400 hover:underline group"
+                >
+                  <PencilLine className="inline size-5 group-hover:text-lime-400" />
+                </button>
+              </p>
+            ) : (
+              <textarea
+                value={formContent}
+                autoFocus
+                className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none"
+                onChange={handleChange}
+                placeholder="Digite sua nota aqui"
+              ></textarea>
+            )}
           </div>
 
-          <button
-            type="button"
-            onClick={
-              () => onNoteDeleted(note.id)
+          {!shouldShowOnBoarding ? (
+            <button
+              type="button"
+              onClick={
+                () => {
+                  onNoteDeleted(note.id);
+                  toast.success("Nota deletada com sucesso!", {
+                    duration: 1000,
+                  });
+                }
 
-              //se passamos uma função com parametros, precisamos de uma arrow function, pq esses eventos nativos esperam
-              //a declaração de uma função e não a execução de uma
-            }
-            className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group"
-          >
-            Deseja{" "}
-            <span className="text-red-400 group-hover:underline">
-              apagar essa nota
-            </span>
-            ?
-          </button>
+                //se passamos uma função com parametros, precisamos de uma arrow function, pq esses eventos nativos esperam
+                //a declaração de uma função e não a execução de uma
+              }
+              className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group"
+            >
+              Deseja{" "}
+              <span className="text-red-400 group-hover:underline">
+                apagar essa nota
+              </span>
+              ?
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={
+                () => {
+                  onNoteUpdate(note.id, formContent);
+                  setShouldShowOnBoarding(false);
+                  toast.success("Nota atualizada com sucesso!!");
+                }
+
+                //se passamos uma função com parametros, precisamos de uma arrow function, pq esses eventos nativos esperam
+                //a declaração de uma função e não a execução de uma
+              }
+              className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group"
+            >
+              Deseja{" "}
+              <span className="text-lime-400 group-hover:underline">
+                atualizar essa nota
+              </span>
+              ?
+            </button>
+          )}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
